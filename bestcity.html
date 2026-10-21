@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 살기 좋은 도시 시상식</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1226; --bg2:#151c38; --card:#1b2447; --line:#2c3768;
+  --gold:#f5c542; --gold2:#ffdf7e; --ink:#eef1fb; --muted:#a6afd3;
+  --accent:#ff6b8b; --ok:#5ee0b0;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:radial-gradient(1200px 600px at 50% -200px,#26305e 0%,var(--bg) 60%) fixed,var(--bg);
+  color:var(--ink); font-family:"Noto Sans KR",system-ui,sans-serif; line-height:1.6;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 16px 60px}
+header.hero{text-align:center;padding:18px 0 8px}
+.ribbon{display:inline-block;font-size:13px;letter-spacing:.2em;color:var(--gold);border:1px solid var(--gold);border-radius:99px;padding:4px 14px;margin-bottom:12px}
+h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:clamp(30px,6vw,52px);margin:0;line-height:1.15;
+  background:linear-gradient(180deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);margin:10px 0 0}
+.student{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:22px 0 6px}
+.student label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.student input{background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 10px;width:70px;font:inherit}
+.student input.name{width:120px}
+section.panel{background:rgba(27,36,71,.85);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:22px}
+.step{display:flex;align-items:center;gap:10px;margin:0 0 6px}
+.step b{background:var(--gold);color:#1a1300;border-radius:99px;padding:2px 12px;font-size:13px}
+.step h2{margin:0;font-size:20px}
+.panel p.hint{color:var(--muted);margin:4px 0 16px;font-size:15px}
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.val{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:border-color .2s}
+.val.hot{border-color:var(--gold)}
+.val .top{display:flex;align-items:center;gap:10px}
+.val .ic{font-size:24px;width:36px;text-align:center}
+.val .nm{font-weight:700;font-size:16px}
+.val .ds{font-size:13px;color:var(--muted);margin-top:2px}
+.val .src{font-size:11px;color:#7e88b8;margin-top:2px}
+.val .row{display:flex;align-items:center;gap:12px;margin-top:10px}
+input[type=range]{flex:1;accent-color:var(--gold);height:24px}
+.lvl{min-width:86px;text-align:right;font-weight:700;color:var(--gold2);font-size:14px}
+.lvl small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);padding:10px 18px}
+button.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1d00;border:none;font-weight:900;font-size:19px;padding:14px 40px;box-shadow:0 6px 24px rgba(245,197,66,.35)}
+button.primary:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.warn{color:var(--accent);text-align:center;margin-top:10px;min-height:1.2em;font-size:14px}
+details.info{margin-top:16px;background:var(--bg2);border:1px dashed var(--line);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--muted)}
+details.info summary{cursor:pointer;color:var(--ink);font-weight:700}
+details.info table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+details.info th,details.info td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+#resultBox{display:none}
+.res-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.trophy{font-size:54px}
+.res-city{font-family:"Black Han Sans",sans-serif;font-size:34px;color:var(--gold2);line-height:1.1}
+.res-country{color:var(--muted)}
+.badge{display:inline-block;background:var(--gold);color:#2a1d00;font-weight:900;border-radius:99px;padding:3px 12px;font-size:14px;margin-left:6px}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.res-grid .box{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.res-grid .box h4{margin:0 0 6px;font-size:14px;color:var(--gold2)}
+.bars{display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:128px 1fr 20px;gap:8px;align-items:center;font-size:13px}
+.bar .t{height:10px;background:#0f1530;border-radius:6px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.print-only{display:none}
+#resultBox.capturing .print-only{display:flex}
+#resultBox.capturing .btns{display:none}
+.print-head{justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.print-head .pt{font-family:"Black Han Sans",sans-serif;font-size:20px;color:var(--gold2)}
+.print-head #pStudent{font-size:13px;color:var(--muted)}
+footer{color:#7e88b8;font-size:12px;text-align:center;margin-top:26px}
+
+/* ===== 시상식 무대 ===== */
+#stage{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(800px 500px at 50% 30%,#2a2050 0%,#07091a 70%)}
+#stage.on{display:flex}
+#stage .spot{position:absolute;top:-20%;width:60vmax;height:140vmax;background:linear-gradient(180deg,rgba(255,240,190,.20),rgba(255,240,190,0) 70%);
+  filter:blur(6px);transform-origin:top center;animation:sweep 6s ease-in-out infinite alternate;pointer-events:none}
+#stage .spot.l{left:-10%;transform:rotate(18deg)} #stage .spot.r{right:-10%;transform:rotate(-18deg);animation-delay:-3s}
+@keyframes sweep{from{opacity:.4}to{opacity:.9}}
+.scene{position:relative;text-align:center;padding:16px;max-width:900px;width:100%}
+.scene .kicker{color:var(--gold);letter-spacing:.25em;font-size:14px}
+.scene .big{font-family:"Black Han Sans",sans-serif;font-size:clamp(28px,6vw,56px);margin:10px 0;color:#fff}
+.fade{animation:fadeUp .7s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.noms{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.nom{width:200px;background:linear-gradient(180deg,#232c58,#161c3a);border:1px solid #3b4685;border-radius:16px;padding:18px 12px;opacity:0;animation:pop .6s ease forwards}
+.nom .c{font-family:"Black Han Sans",sans-serif;font-size:26px;color:var(--gold2)}
+.nom .n{color:var(--muted);font-size:13px}
+.nom.dim{opacity:.35!important;filter:grayscale(.6);transition:.6s}
+.nom.win{border-color:var(--gold);box-shadow:0 0 40px rgba(245,197,66,.6);transform:scale(1.08);transition:.6s}
+@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:none}}
+.envelope{font-size:90px;display:inline-block;margin-top:10px}
+.shake{animation:shake .12s linear infinite}
+@keyframes shake{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
+.drum{font-size:22px;color:var(--gold2);letter-spacing:.1em}
+.winner .city{font-family:"Black Han Sans",sans-serif;font-size:clamp(52px,13vw,120px);line-height:1;
+  background:linear-gradient(180deg,#fff6cf,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:zoom .9s cubic-bezier(.2,1.6,.4,1) both;text-shadow:0 0 30px rgba(245,197,66,.25)}
+@keyframes zoom{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.winner .country{color:var(--muted);font-size:18px;margin-top:6px}
+.winner .match{display:inline-block;margin-top:14px;background:var(--gold);color:#2a1d00;font-weight:900;border-radius:99px;padding:6px 18px;font-size:18px}
+.winner .why{margin:18px auto 0;max-width:620px;color:#dfe3f7;font-size:16px}
+.stage-ctrl{position:absolute;top:14px;right:14px;display:flex;gap:8px;z-index:3}
+.stage-ctrl button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);font-size:13px;padding:7px 12px}
+#confetti{position:absolute;inset:0;pointer-events:none;z-index:2}
+
+@media print{
+  @page{margin:14mm}
+  body{background:#fff!important;color:#000}
+  .wrap{padding:0;max-width:none}
+  .wrap > header, .wrap > section.panel:not(#resultBox), footer, #stage, .btns{display:none!important}
+  #resultBox{display:block!important;background:#fff!important;border:none!important;padding:0;margin:0}
+  .print-only{display:block}
+  .print-head{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end}
+  .print-head .pt{font-family:"Black Han Sans",sans-serif;font-size:22px}
+  .print-head #pStudent{font-size:14px}
+  .step b{background:#000!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .res-city{color:#000}
+  .res-country{color:#333}
+  .badge{background:#fff!important;color:#000!important;border:1.5px solid #000}
+  .res-grid .box{background:#fff!important;border-color:#999!important;color:#000!important;break-inside:avoid}
+  .res-grid .box h4{color:#000}
+  .bar .t{background:#ddd!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bar .t i{background:#555!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="ribbon">MY CITY AWARDS 2026</div>
+    <h1>나의 살기 좋은 도시<br>시상식</h1>
+    <p class="sub">내가 중요하게 여기는 가치에 따라, 나에게 가장 잘 맞는 도시가 수상합니다.</p>
+    <div class="student">
+      <label>학년 <input id="sGrade" inputmode="numeric"></label>
+      <label>반 <input id="sClass" inputmode="numeric"></label>
+      <label>번호 <input id="sNum" inputmode="numeric"></label>
+      <label>이름 <input id="sName" class="name"></label>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="step"><b>STEP 1</b><h2>가치의 중요도 정하기</h2></div>
+    <p class="hint">세계의 '살기 좋은 도시' 평가에서 실제로 쓰이는 기준들입니다. 나에게 얼마나 중요한지 0~5로 조정하세요.</p>
+    <div class="values" id="values"></div>
+
+    <details class="info">
+      <summary>이 가치들은 어디에서 왔나요?</summary>
+      <p>영국 EIU의 <b>세계 거주 적합성 지수(Global Liveability Index)</b>는 173개 도시를 30개 지표로 평가하며, 지표를 다섯 부문으로 묶습니다.</p>
+      <table>
+        <tr><th>EIU 부문</th><th>비중</th><th>주요 지표</th></tr>
+        <tr><td>안정성</td><td>25%</td><td>범죄, 테러 위협, 군사 분쟁, 시민 소요</td></tr>
+        <tr><td>의료</td><td>20%</td><td>공공·민간 의료의 질과 이용 가능성</td></tr>
+        <tr><td>문화·환경</td><td>25%</td><td>기후 쾌적성, 부패·검열, 사회·종교적 제약, 문화·스포츠, 음식</td></tr>
+        <tr><td>교육</td><td>10%</td><td>공교육·사교육의 질과 이용 가능성</td></tr>
+        <tr><td>기반 시설</td><td>20%</td><td>도로, 대중교통, 국제 교통, 에너지·물, 통신, 주택</td></tr>
+      </table>
+      <p>여기에 머서(Mercer) <b>삶의 질 조사</b>의 경제 환경·주거·자연환경 범주를 더해 9개 가치로 구성했습니다.</p>
+      <p>※ 도시별 점수(1~5)는 EIU 2026 공개 순위·부문 점수와 공개 자료를 바탕으로 수업용으로 단순화한 추정치이며, EIU·머서의 공식 세부 점수가 아닙니다.</p>
+    </details>
+
+    <div class="btns">
+      <button id="resetBtn">모두 보통(3)으로</button>
+      <button class="primary" id="doneBtn">🏆 완성!</button>
+    </div>
+    <div class="warn" id="warn"></div>
+  </section>
+
+  <section class="panel" id="resultBox">
+    <div class="print-only print-head"><div class="pt">나의 살기 좋은 도시 시상식</div><div id="pStudent"></div></div>
+    <div class="step"><b>STEP 2</b><h2>나의 수상 도시</h2></div>
+    <div class="res-head">
+      <div class="trophy">🏆</div>
+      <div>
+        <div class="res-city" id="rCity"></div>
+        <div class="res-country"><span id="rCountry"></span><span class="badge" id="rMatch"></span></div>
+      </div>
+    </div>
+    <div class="res-grid">
+      <div class="box"><h4>도시 소개</h4><div id="rBlurb"></div></div>
+      <div class="box"><h4>수상 이유 · 아쉬운 점</h4><div id="rWhy"></div></div>
+      <div class="box"><h4>나의 가치 중요도</h4><div class="bars" id="rMine"></div></div>
+      <div class="box"><h4>최종 후보 순위</h4><div id="rNoms"></div></div>
+    </div>
+
+    <div class="btns">
+      <button id="againBtn">↺ 가치 바꿔서 다시 하기</button>
+      <button id="replayBtn">🎬 시상식 다시 보기</button>
+      <button class="primary" id="imgBtn" style="font-size:16px;padding:12px 26px">📷 결과 이미지로 저장</button>
+      <button id="printBtn">🖨️ 인쇄·PDF</button>
+    </div>
+  </section>
+
+  <footer>자료: EIU Global Liveability Index 2026, Mercer Quality of Living 조사 범주 · 도시 점수는 수업용 추정치</footer>
+</div>
+
+<!-- 시상식 무대 -->
+<div id="stage" aria-live="polite">
+  <div class="spot l"></div><div class="spot r"></div>
+  <canvas id="confetti"></canvas>
+  <div class="stage-ctrl">
+    <button id="soundBtn">🔊 소리 켜짐</button>
+    <button id="skipBtn">건너뛰기 ⏭</button>
+  </div>
+  <div class="scene" id="scene"></div>
+</div>
+
+<script>
+const VALUES = [
+  {id:'stab',  icon:'🛡️', name:'안전·안정',     desc:'범죄·테러·분쟁 걱정이 적은 도시', src:'EIU 안정성'},
+  {id:'health',icon:'🏥', name:'의료',          desc:'좋은 병원과 의료 서비스를 쉽게 이용', src:'EIU 의료'},
+  {id:'edu',   icon:'🎓', name:'교육',          desc:'질 높은 학교와 교육 기회', src:'EIU 교육'},
+  {id:'infra', icon:'🚇', name:'교통·기반시설',  desc:'대중교통, 도로, 통신, 물·전기', src:'EIU 기반 시설'},
+  {id:'cult',  icon:'🎭', name:'문화·여가',      desc:'공연·스포츠·음식 등 즐길 거리', src:'EIU 문화·환경 / 머서 여가'},
+  {id:'nat',   icon:'🌿', name:'자연·기후',      desc:'쾌적한 기후, 깨끗한 공기와 녹지', src:'EIU 기후 / 머서 자연환경'},
+  {id:'free',  icon:'🗽', name:'자유·개방성',    desc:'부패·검열·사회적 제약이 적음', src:'EIU 문화·환경'},
+  {id:'cost',  icon:'💰', name:'적은 생활비 부담', desc:'집값·물가 부담이 비교적 적음', src:'머서 주거·소비재'},
+  {id:'job',   icon:'💼', name:'일자리·경제',    desc:'일자리와 경제적 기회가 많음', src:'머서 경제 환경'}
+];
+// 점수 순서: stab, health, edu, infra, cult, nat, free, cost, job (1~5, 수업용 추정치)
+const CITIES = [
+  {name:'코펜하겐', country:'덴마크',       s:[5,4,5,5,4,3,5,2,4], blurb:'EIU 2026 세계 1위(2년 연속). 자전거 도로망이 촘촘하고 안정성·교육·기반 시설 부문 만점을 받았습니다.'},
+  {name:'빈',       country:'오스트리아',   s:[5,5,5,5,5,3,4,3,4], blurb:'EIU 2026 세계 2위. 음악·예술의 도시이며, 공공임대주택 비중이 높아 서유럽 대도시 중 주거 부담이 덜한 편입니다.'},
+  {name:'멜버른',   country:'오스트레일리아', s:[5,5,5,4,5,4,5,2,4], blurb:'EIU 2026 세계 3위. 테니스·자동차 경주 등 대형 스포츠 행사와 카페·예술 문화로 유명합니다.'},
+  {name:'취리히',   country:'스위스',       s:[5,5,5,5,4,5,5,1,5], blurb:'EIU 2026 세계 5위. 호수와 알프스를 곁에 둔 금융 중심지지만, 세계에서 물가가 가장 비싼 도시 중 하나입니다.'},
+  {name:'오사카',   country:'일본',         s:[5,5,5,5,4,3,4,3,3], blurb:'EIU 2026 세계 7위. 안정성·의료·교육 만점이며, "먹다 망한다"는 말이 있을 만큼 음식 문화가 풍부합니다.'},
+  {name:'도쿄',     country:'일본',         s:[5,5,5,5,5,3,4,2,5], blurb:'EIU 2026 세계 10위로 처음 10위권에 진입했습니다. 세계 최대 규모의 도시권과 정확한 대중교통을 갖추었습니다.'},
+  {name:'밴쿠버',   country:'캐나다',       s:[5,4,5,4,5,5,5,1,4], blurb:'EIU 2026 세계 9위, 북아메리카 유일의 10위권 도시. 바다와 산이 가깝지만 주거비가 매우 높습니다.'},
+  {name:'오클랜드', country:'뉴질랜드',     s:[5,4,5,3,4,5,5,2,3], blurb:'두 바다 사이의 항구 도시로 화산 지형과 해변이 어우러집니다. 2026년에는 EIU 10위권에서 빠졌습니다.'},
+  {name:'서울',     country:'대한민국',     s:[4,4,5,5,5,2,4,2,4], blurb:'촘촘한 대중교통과 풍부한 문화를 갖췄고 QS 최고의 학생 도시 1위에 올랐지만, EIU 2026에서는 58위였습니다.'},
+  {name:'부산',     country:'대한민국',     s:[4,4,4,4,4,4,4,3,3], blurb:'바다와 항만의 도시. EIU 2024 평가에서 아시아 도시 중 6위를 기록했습니다.'},
+  {name:'싱가포르', country:'싱가포르',     s:[5,5,5,5,4,3,3,1,5], blurb:'도시 전체가 하나의 나라인 도시국가. 녹지 정책과 국제 금융으로 유명하지만 덥고 습한 열대 기후입니다.'},
+  {name:'뉴욕',     country:'미국',         s:[3,4,5,4,5,3,5,1,5], blurb:'세계 금융·문화의 중심지. EIU 2026에서 점수가 가장 크게 오른 도시 중 하나였습니다.'},
+  {name:'바르셀로나', country:'스페인',     s:[4,5,4,4,5,5,5,3,3], blurb:'지중해성 기후와 해변, 가우디의 건축물로 유명한 문화 도시입니다.'},
+  {name:'리스본',   country:'포르투갈',     s:[4,4,4,4,4,5,5,4,3], blurb:'온화한 지중해성 기후의 언덕 도시. 서유럽 수도 중 생활비가 비교적 낮은 편입니다.'},
+  {name:'방콕',     country:'타이',         s:[3,3,3,3,5,2,2,5,3], blurb:'길거리 음식과 사원 문화가 풍부하고 생활비가 저렴하지만, 덥고 습하며 교통 혼잡이 심합니다.'}
+];
+const LV = ['상관없어요','조금 중요','중요','꽤 중요','매우 중요','가장 중요'];
+
+const valWrap = document.getElementById('values');
+VALUES.forEach(v=>{
+  const d = document.createElement('div');
+  d.className='val';
+  d.innerHTML = `<div class="top"><div class="ic">${v.icon}</div><div><div class="nm">${v.name}</div><div class="ds">${v.desc}</div><div class="src">출처 범주: ${v.src}</div></div></div>
+  <div class="row"><input type="range" min="0" max="5" step="1" value="3" id="w_${v.id}" aria-label="${v.name} 중요도"><div class="lvl" id="l_${v.id}"></div></div>`;
+  valWrap.appendChild(d);
+  const r = d.querySelector('input');
+  const upd = ()=>{ document.getElementById('l_'+v.id).innerHTML = `${r.value}점<small>${LV[r.value]}</small>`; d.classList.toggle('hot', +r.value>=4); };
+  r.addEventListener('input',upd); upd();
+});
+
+function weights(){ return VALUES.map(v=>+document.getElementById('w_'+v.id).value); }
+
+function rank(w){
+  const tot = w.reduce((a,b)=>a+b,0);
+  const maxW = Math.max(...w);
+  return CITIES.map(c=>{
+    const sc = c.s.reduce((a,x,i)=>a+x*w[i],0)/tot;
+    const tie = c.s.reduce((a,x,i)=>a+(w[i]===maxW?x:0),0);
+    return {...c, score:sc, tie};
+  }).sort((a,b)=> b.score-a.score || b.tie-a.tie || a.name.localeCompare(b.name,'ko'));
+}
+
+function explain(city,w){
+  const items = VALUES.map((v,i)=>({v, w:w[i], r:city.s[i], c:w[i]*city.s[i]}));
+  const good = items.filter(x=>x.w>=3 && x.r>=4).sort((a,b)=>b.c-a.c || b.w-a.w).slice(0,3);
+  const weak = items.filter(x=>x.w>=2 && x.r<=3).sort((a,b)=>a.r-b.r || b.w-a.w)[0];
+  return {good, weak};
+}
+
+/* ===== 소리 ===== */
+let soundOn = true, actx = null;
+function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return actx; }
+function noiseBuf(ctx,sec){ const b=ctx.createBuffer(1,ctx.sampleRate*sec,ctx.sampleRate); const d=b.getChannelData(0); for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1; return b; }
+function drumroll(sec){
+  const ctx=ac(); if(!ctx||!soundOn) return;
+  const buf=noiseBuf(ctx,0.08), t0=ctx.currentTime;
+  const hits=Math.floor(sec*22);
+  for(let i=0;i<hits;i++){
+    const t=t0+i/22, s=ctx.createBufferSource(); s.buffer=buf;
+    const f=ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=1800; f.Q.value=.8;
+    const g=ctx.createGain(); const vol=.12+.35*(i/hits);
+    g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+.07);
+    s.connect(f).connect(g).connect(ctx.destination); s.start(t); s.stop(t+.08);
+  }
+}
+function fanfare(){
+  const ctx=ac(); if(!ctx||!soundOn) return;
+  const t=ctx.currentTime;
+  // 심벌
+  const s=ctx.createBufferSource(); s.buffer=noiseBuf(ctx,2.2);
+  const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=5000;
+  const g=ctx.createGain(); g.gain.setValueAtTime(.5,t); g.gain.exponentialRampToValueAtTime(.001,t+2.1);
+  s.connect(hp).connect(g).connect(ctx.destination); s.start(t);
+  // 팡파레 화음
+  [[523.25,0],[659.25,.12],[783.99,.24],[1046.5,.36]].forEach(([f,d])=>{
+    const o=ctx.createOscillator(), og=ctx.createGain(); o.type='triangle'; o.frequency.value=f;
+    og.gain.setValueAtTime(0,t+d); og.gain.linearRampToValueAtTime(.16,t+d+.03); og.gain.exponentialRampToValueAtTime(.001,t+d+1.6);
+    o.connect(og).connect(ctx.destination); o.start(t+d); o.stop(t+d+1.7);
+  });
+}
+function chime(){
+  const ctx=ac(); if(!ctx||!soundOn) return;
+  const t=ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sine'; o.frequency.value=880; g.gain.setValueAtTime(.12,t); g.gain.exponentialRampToValueAtTime(.001,t+.5);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t+.5);
+}
+
+/* ===== 꽃가루 ===== */
+const cv=document.getElementById('confetti'), cx=cv.getContext('2d'); let parts=[], confRAF=null;
+function confetti(){
+  cv.width=innerWidth; cv.height=innerHeight;
+  const cols=['#f5c542','#ffdf7e','#ff6b8b','#5ee0b0','#7aa8ff','#ffffff'];
+  parts=Array.from({length:220},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.6,vx:(Math.random()-.5)*3,vy:2+Math.random()*3.5,
+    s:5+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.25,c:cols[Math.floor(Math.random()*cols.length)]}));
+  cancelAnimationFrame(confRAF);
+  const tick=()=>{ cx.clearRect(0,0,cv.width,cv.height); let alive=0;
+    parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=.02; p.r+=p.vr; if(p.y<cv.height+20)alive++;
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillStyle=p.c; cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); cx.restore(); });
+    if(alive) confRAF=requestAnimationFrame(tick); };
+  tick();
+}
+
+/* ===== 시상식 진행 ===== */
+const stage=document.getElementById('stage'), scene=document.getElementById('scene');
+let runId=0, skipping=false;
+const sleep=(ms,id)=>new Promise((res,rej)=>{ if(skipping) return res(); const t=setTimeout(()=> id===runId?res():rej('stop'),ms); });
+
+async function ceremony(ranked,w){
+  const id=++runId; skipping=false;
+  stage.classList.add('on'); document.body.style.overflow='hidden';
+  const win=ranked[0], noms=ranked.slice(0,3);
+  const order=[...noms].sort(()=>Math.random()-.5);
+  try{
+    scene.innerHTML=`<div class="fade"><div class="kicker">MY CITY AWARDS 2026</div><div class="big">나의 살기 좋은 도시 시상식</div><div style="color:var(--muted)">${studentLabel()}의 가치관으로 심사했습니다</div></div>`;
+    await sleep(2200,id);
+    scene.innerHTML=`<div class="fade"><div class="kicker">NOMINEES</div><div class="big">최종 후보에 오른 도시는…</div></div><div class="noms" id="noms"></div>`;
+    await sleep(900,id);
+    const nomEl=document.getElementById('noms');
+    for(const c of order){
+      const d=document.createElement('div'); d.className='nom'; d.dataset.name=c.name;
+      d.innerHTML=`<div class="c">${c.name}</div><div class="n">${c.country}</div>`;
+      nomEl.appendChild(d); chime(); await sleep(900,id);
+    }
+    await sleep(800,id);
+    scene.insertAdjacentHTML('beforeend',`<div class="fade" style="margin-top:28px"><div class="envelope shake">✉️</div><div class="drum">두구두구두구…</div></div>`);
+    drumroll(2.6);
+    await sleep(2700,id);
+    nomEl.querySelectorAll('.nom').forEach(n=> n.classList.add(n.dataset.name===win.name?'win':'dim'));
+    await sleep(900,id);
+    showWinner(win,w);
+  }catch(e){}
+}
+function showWinner(win,w){
+  const {good,weak}=explain(win,w);
+  const why = good.length
+    ? `당신이 중요하게 여긴 <b>${good.map(g=>g.v.name).join(', ')}</b>에서 높은 점수를 받아 수상했습니다!`
+    : `여러 가치에서 고르게 좋은 점수를 받아 수상했습니다!`;
+  scene.innerHTML=`<div class="winner"><div class="kicker">AND THE AWARD GOES TO</div>
+    <div class="city">${win.name}</div><div class="country">${win.country}</div>
+    <div class="match">나와의 궁합 ${Math.round(win.score/5*100)}%</div>
+    <p class="why">${why}</p>
+    <div class="btns"><button class="primary" id="toResult">결과 활동지로 →</button></div></div>`;
+  fanfare(); confetti();
+  document.getElementById('toResult').onclick=closeStage;
+}
+function closeStage(){
+  runId++; stage.classList.remove('on'); document.body.style.overflow='';
+  cancelAnimationFrame(confRAF); cx.clearRect(0,0,cv.width,cv.height);
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+}
+function studentLabel(){
+  const n=document.getElementById('sName').value.trim();
+  return n? `${n} 학생` : '여러분';
+}
+
+/* ===== 결과 기록 ===== */
+let last=null;
+function fillResult(ranked,w){
+  const win=ranked[0]; const {good,weak}=explain(win,w);
+  document.getElementById('rCity').textContent=win.name;
+  document.getElementById('rCountry').textContent=win.country;
+  document.getElementById('rMatch').textContent=`궁합 ${Math.round(win.score/5*100)}%`;
+  document.getElementById('rBlurb').textContent=win.blurb;
+  let h = good.length ? `<p>👍 강점: ${good.map(g=>`${g.v.icon} ${g.v.name}(${g.r}/5)`).join(', ')}</p>` : `<p>👍 여러 가치에서 고른 점수</p>`;
+  h += weak ? `<p>🤔 아쉬운 점: ${weak.v.icon} ${weak.v.name}(${weak.r}/5) — 이 가치를 ${w[VALUES.indexOf(weak.v)]}점으로 중요하게 여겼는데 점수가 낮은 편이에요.</p>` : `<p>🤔 중요하게 여긴 가치 중 크게 부족한 점은 없었어요.</p>`;
+  document.getElementById('rWhy').innerHTML=h;
+  document.getElementById('rMine').innerHTML=VALUES.map((v,i)=>`<div class="bar"><span>${v.icon} ${v.name}</span><span class="t"><i style="width:${w[i]*20}%"></i></span><span>${w[i]}</span></div>`).join('');
+  document.getElementById('rNoms').innerHTML=ranked.slice(0,5).map((c,i)=>`<div>${['🥇','🥈','🥉','4위','5위'][i]} ${c.name} (${c.country}) — 궁합 ${Math.round(c.score/5*100)}%</div>`).join('');
+  document.getElementById('resultBox').style.display='block';
+}
+
+document.getElementById('doneBtn').onclick=()=>{
+  const w=weights(); const warn=document.getElementById('warn');
+  if(w.every(x=>x===0)){ warn.textContent='적어도 한 가지 가치는 1점 이상으로 정해 주세요.'; return; }
+  warn.textContent='';
+  const ctx=ac(); if(ctx&&ctx.state==='suspended') ctx.resume();
+  const ranked=rank(w); last={ranked,w};
+  fillResult(ranked,w); ceremony(ranked,w);
+};
+document.getElementById('resetBtn').onclick=()=>{ VALUES.forEach(v=>{const r=document.getElementById('w_'+v.id); r.value=3; r.dispatchEvent(new Event('input'));}); };
+document.getElementById('againBtn').onclick=()=> window.scrollTo({top:document.getElementById('values').offsetTop-80,behavior:'smooth'});
+document.getElementById('replayBtn').onclick=()=>{ if(last) ceremony(last.ranked,last.w); };
+function fillStudent(){
+  const g=v=>document.getElementById(v).value.trim();
+  document.getElementById('pStudent').textContent=`${g('sGrade')||'  '}학년 ${g('sClass')||'  '}반 ${g('sNum')||'  '}번  이름: ${g('sName')||'__________'}`;
+}
+document.getElementById('imgBtn').onclick=async e=>{
+  const btn=e.currentTarget, box=document.getElementById('resultBox');
+  if(typeof html2canvas!=='function'){ alert('이미지 저장 기능을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 다시 시도하거나, 화면을 캡처해 주세요.'); return; }
+  fillStudent(); btn.disabled=true; const old=btn.textContent; btn.textContent='저장 중…';
+  box.classList.add('capturing');
+  try{
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas=await html2canvas(box,{backgroundColor:'#151c38',scale:2,useCORS:true});
+    const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+    const nm=(document.getElementById('sName').value.trim()||'나의')+'_살기좋은도시_결과.png';
+    const file=new File([blob],nm,{type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file],title:'나의 살기 좋은 도시'}); }catch(err){}
+    }else{
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nm;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    }
+  }catch(err){
+    alert('이미지를 만들지 못했어요. 화면을 캡처해 주세요.');
+  }finally{
+    box.classList.remove('capturing'); btn.disabled=false; btn.textContent=old;
+  }
+};
+document.getElementById('printBtn').onclick=()=>{
+  fillStudent();
+  let framed=false; try{ framed = window.self!==window.top; }catch(e){ framed=true; }
+  if(framed){
+    alert('미리보기 화면에서는 인쇄가 막혀 있을 수 있어요.\n파일을 내려받아 크롬이나 엣지에서 열면 인쇄·PDF 저장이 됩니다.');
+  }
+  window.print();
+};
+document.getElementById('skipBtn').onclick=()=>{ if(!last) return; runId++; skipping=false; showWinner(last.ranked[0],last.w); };
+document.getElementById('soundBtn').onclick=e=>{ soundOn=!soundOn; e.target.textContent= soundOn?'🔊 소리 켜짐':'🔇 소리 꺼짐'; };
+addEventListener('keydown',e=>{ if(e.key==='Escape' && stage.classList.contains('on')) closeStage(); });
+addEventListener('resize',()=>{ if(stage.classList.contains('on')){cv.width=innerWidth;cv.height=innerHeight;} });
+</script>
+</body>
+</html>
